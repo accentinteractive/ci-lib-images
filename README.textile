@@ -18,7 +18,7 @@ Just drop application\libraries\Images.php intro your library folder and you're 
 
 h1. Typical usage
 
-@function image ()
+pre. function image ()
 {
     $newWidth = 200;
     $newHeight = 200;
@@ -35,5 +35,5 @@ h1. Typical usage
     
     // Create square image image
     $this->images->square($sourcefile, $destinationfile . 'tn3_rooney.jpg');
-}@
+}
 
