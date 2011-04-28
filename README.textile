@@ -1,0 +1,39 @@
+h1. Image resizing ans square cropping library
+
+Image resizing and cropping can take up a lot of repetitive code. Here's an image library that I use to create thumbs and resized versions of images (square or not). By default, images are squared from the center, but this can be offset.
+
+If you have any additions or sugegstions, feel free to code somethings up and send me a pull request!
+
+h1. Contents
+
+* A default CI 2.0 installation.
+* The library.
+* A controller with some example code.
+
+If you wish to try it out - just drop the entire contents intro a web folder, make sure folder /gfx is writable and fire op your browser.
+
+h1. Installation
+
+Just drop application\libraries\Images.php intro your library folder and you're good to go.
+
+h1. Typical usage
+
+@function image ()
+{
+    $newWidth = 200;
+    $newHeight = 200;
+    $enlargeOnResize = FALSE;
+    $sourcefile = FCPATH . 'gfx/rooney.jpg';
+    $destinationfile = FCPATH . 'gfx/';
+    $this->load->library('images');
+    
+    // Create square and resized image example
+    $this->images->squareThumb($sourcefile, $destinationfile . 'tn1_rooney.jpg', $newWidth, $enlargeOnResize);
+    
+    // Create resized image example
+    $this->images->resize($sourcefile, $destinationfile . 'tn2_rooney.jpg', $newWidth, $newHeight, $enlargeOnResize);
+    
+    // Create square image image
+    $this->images->square($sourcefile, $destinationfile . 'tn3_rooney.jpg');
+}@
+
