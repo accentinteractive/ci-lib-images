@@ -7,6 +7,7 @@ class Example extends CI_Controller
     public function __construct ()
     {
         parent::__construct();
+        $this->load->helper('general');
     }
 
     /**
@@ -64,9 +65,10 @@ class Example extends CI_Controller
         $data['newHeight'] = 180;
         $data['enlargeOnResize'] = FALSE;
         $sourcefile = realpath(FCPATH . 'gfx') . DIRECTORY_SEPARATOR . $data['filename'];
+        $destinationfile = FCPATH . 'gfx/' . $data['newFileName'];
         
         $this->load->library('images');
-        $this->images->resize($sourcefile, $data['newFileName'], $data['newWidth'], $data['newHeight'], $data['enlargeOnResize']);
+        $this->images->resize($sourcefile, $destinationfile, $data['newWidth'], $data['newHeight'], $data['enlargeOnResize']);
         
         $this->load->view('example_resize_single', $data);
     }
@@ -84,6 +86,7 @@ class Example extends CI_Controller
         $data['newHeight'] = 200;
         $data['enlargeOnResize'] = FALSE;
         $sourcefile = realpath(FCPATH . 'gfx') . DIRECTORY_SEPARATOR . $data['filename'];
+        $destinationfile = FCPATH . 'gfx/' . $data['newFileName'];
         
         $this->load->library('images');
         $this->images->squareThumb($sourcefile, $data['newFileName'], $data['newWidth'], $data['enlargeOnResize']);

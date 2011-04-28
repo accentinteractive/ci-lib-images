@@ -179,7 +179,7 @@ class Images
         if ($newFile) {
             $config['new_image'] = $newFile;
         }
-        
+
         // Crop only if image is not square yet
         if ($imgData['width'] != $imgData['height']) {
             
