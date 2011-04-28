@@ -27,28 +27,26 @@ class Example extends CI_Controller
      */
     public function resize_multiple ()
     {
-        $filename = 'rooney.jpg';
-        $newFileName = 'resized.jpg';
-        
-        $sourcefile = realpath(FCPATH . 'gfx') . DIRECTORY_SEPARATOR . $filename;
-        $enlargeOnResize = FALSE;
+        $data['filename'] = 'rooney.jpg';
+        $data['newFileName'] = 'resized.jpg';
+        $data['enlargeOnResize'] = FALSE;
+        $sourcefile = realpath(FCPATH . 'gfx') . DIRECTORY_SEPARATOR . $data['filename'];
         
         $images = $this->_get_images_config();
         $this->load->library('images');
         foreach ($images as $image) {
             
-            $destinationfile = $image['prefix'] . $newFileName;
+            $destinationfile = FCPATH . 'gfx/' . $image['prefix'] . $data['newFileName'];
             
             if (isset($image['crop']) && $image['crop'] == TRUE) {
-                $this->images->squareThumb($sourcefile, $destinationfile, $image['width'], $enlargeOnResize);
+                $this->images->squareThumb($sourcefile, $destinationfile, $image['width'], $data['enlargeOnResize']);
             }
             else {
-                $this->images->resize($sourcefile, $destinationfile, $image['width'], $image['height'], $enlargeOnResize);
+                $this->images->resize($sourcefile, $destinationfile, $image['width'], $image['height'], $data['enlargeOnResize']);
             }
         }
         
         $data['images'] = $images;
-        $data['newFile'] = $newFileName;
         $this->load->view('example_resized', $data);
     }
 
@@ -89,7 +87,7 @@ class Example extends CI_Controller
         $destinationfile = FCPATH . 'gfx/' . $data['newFileName'];
         
         $this->load->library('images');
-        $this->images->squareThumb($sourcefile, $data['newFileName'], $data['newWidth'], $data['enlargeOnResize']);
+        $this->images->squareThumb($sourcefile, $destinationfile, $data['newWidth'], $data['enlargeOnResize']);
         
         $this->load->view('example_resize_single', $data);
     }
@@ -103,10 +101,17 @@ class Example extends CI_Controller
     {
         // Resize & preserve aspect ratio
         $i = 0;
+        $images[$i]['width'] = 400;
+        $images[$i]['height'] = 400;
+        $images[$i]['crop'] = FALSE;
+        $images[$i]['prefix'] = '400_';
+        
+        // Resize & crop; square from the center
+        $i ++;
         $images[$i]['width'] = 300;
         $images[$i]['height'] = 300;
-        $images[$i]['crop'] = FALSE;
-        $images[$i]['prefix'] = '300_';
+        $images[$i]['crop'] = TRUE;
+        $images[$i]['prefix'] = '300_square_';
         
         // Resize & crop; square from the center
         $i ++;
@@ -117,10 +122,10 @@ class Example extends CI_Controller
         
         // Resize as thumb & preserve aspect ratio
         $i ++;
-        $images[$i]['width'] = 120;
-        $images[$i]['height'] = 120;
+        $images[$i]['width'] = 90;
+        $images[$i]['height'] = 90;
         $images[$i]['crop'] = FALSE;
-        $images[$i]['prefix'] = '120_preserved_';
+        $images[$i]['prefix'] = '90_preserved_';
         
         return $images;
     }
