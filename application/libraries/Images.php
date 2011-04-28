@@ -285,7 +285,7 @@ class Images
         // Resize and/or crop copies of image
         foreach ($image_sizes as $row) {
             // Set filename, using prefix
-            $destinationfile = $upload_data['file_path'] . $row['prefix'] . $destination_file . strtolower($upload_data['file_ext']);
+            $destinationfile = $upload_data['file_path'] . $row['prefix'] . $destination_file . $upload_data['file_ext'];
             
             // Resize image
             if (isset($row['crop']) && $row['crop'] == TRUE) {
