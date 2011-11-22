@@ -203,7 +203,7 @@ class Images
             }
             else {
                 // We need to copy the image to the new path
-                delete_file($newFile);
+                $this->_delete_file($newFile);
                 copy($originalFile, $newFile);
                 return FALSE;
             }
@@ -255,7 +255,7 @@ class Images
         foreach ($image_sizes as $version) {
             $names[] = $version['prefix'] . $image;
         }
-        delete_file($names, $filepath);
+        $this->_delete_file($names, $filepath);
     }
 
     /**
@@ -337,6 +337,41 @@ class Images
         }
         else {
             return $this->_ci->upload->data();
+        }
+    }
+    
+    /**
+     * Delete one or more files from file system. You can pass an array of names or 
+     * a single name to param $names. Names can include a full path if you do 
+     * not set param $path.
+     * @param Mixed $names
+     * @param String $path (optional)
+     * @global
+     * @return void
+     * @author Joost van Veen
+     */
+    private function _delete_file ($names, $path = '') {
+        
+        // Make sure we have an array of filenames to loop through.
+        if (! is_array($names)) {
+            $names = array($names);
+        }
+        if (count($names) == 0) {
+            return FALSE;
+        }
+        
+        foreach ($names as $name) {
+            
+            // Skip if we have no file
+            if ($name == '') {
+                continue;
+            }
+            
+            // Delete file
+            $file = $path == '' ? $name : $path . $name;
+            if (file_exists($file) && is_file($file)) {
+                unlink($file);
+            }
         }
     }
 }
